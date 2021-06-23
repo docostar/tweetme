@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block content%}
+    <h2>Wel come to Tweetme </h2>    
+
+    <div id="tweets">
+        Replace me
+    </div>
+
+    <script>
+            const tweetElement=document.getElementById('tweets')
+            tweetElement.innerHTML='Loading....'
+            // var el1="<h3> Hey .There</H3>"
+            // var el2="<h3> Hey .There</H3>"
+            // var el3="<h3> Hey .There</H3>"
+
+            //     tweetElement.innerHTML=el1+el2+el3 
+
+
+            const xhr=new XMLHttpRequest()  //python: xhr=someclass()
+            const method='GET'   //other method POST
+            const url="/tweets"
+            const responseType="json"
+
+            xhr.responseType=responseType
+            xhr.open(method,url)
+            xhr.onload= function()
+            {
+                
+                const serverResponse=xhr.response
+                const listedItems=serverResponse.response
+                var finalTweetstr=""
+                var i
+                for(i=0;i<listedItems.length;i++)
+                {
+                    //console.log(i)
+                    //console.log(listedItems[i])
+                    var currentItem="<div class='mb-4'> <h3>"+ listedItems[i].id+"</h3>"+"<p>"+ listedItems[i]['content']+"</p></div>"
+                    //console.log(currentItem)
+                    finalTweetstr+=currentItem
+                }
+                tweetElement.innerHTML=finalTweetstr
+
+                //console.log(listedItems)
+            }
+            xhr.send()
+
+    </script>
+{% endblock content%}
