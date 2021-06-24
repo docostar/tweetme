@@ -24,14 +24,20 @@ def tweet_create_view(request,*args, **kwargs):
         obj = form.save(commit=False)
         # do other form related logic
         obj.save()
+        if request.is_ajax():
+            return JsonResponse(obj.serialize(),status=201) #201- for creating 
         if next_url!=None and is_safe_url(next_url,ALLOWED_HOSTS):
             return redirect(next_url)
         form = TweetForm()
+    if form.errors:
+        if request.is_ajax():
+            return JsonResponse(form.errors, status=400)
     return render(request, 'components/forms.html', context={"form": form})
 
 def tweet_list_view(request,*args, **kwargs):
     qs=Tweet.objects.all()
-    tweets_list=[{"id":x.id,"content":x.content,"likes":random.randint(0,50)} for x in qs]
+    #tweets_list=[{"id":x.id,"content":x.content,"likes":random.randint(0,50)} for x in qs]
+    tweets_list=[x.serialize() for x in qs]
     data={
         "isUser":False,
         "response": tweets_list
