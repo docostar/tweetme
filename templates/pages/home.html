@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content%}
-    <h2>Wel come to Tweetme </h2>    
+    <h2>Welcome to Tweetme </h2>    
 
     <div id="tweets">
         Replace me
@@ -21,6 +21,27 @@
             const method='GET'   //other method POST
             const url="/tweets"
             const responseType="json"
+            
+            function handledDidLike(tweet_id,currentCount)
+            {
+                console.log(tweet_id,currentCount)
+            }
+
+
+            function LikeBtn(tweet)
+            {
+                return "<button class='btn btn- btn-sm' onclick=handledDidLike("+ tweet.id  + 
+                        ","+ tweet.likes + ") >"+ tweet.likes+" Like</button>"
+            }
+
+            function formattedTweetElement(tweet)
+            {
+                var formattedTweet="<div class='mb-4 mx-4 tweet' id='tweet-"+ tweet.id+"'>"
+                + "<p>"+ tweet['content']+
+                    "</p><div class='btn-group'>"+ LikeBtn(tweet)
+                    +"</div></div>"
+                return formattedTweet
+            }
 
             xhr.responseType=responseType
             xhr.open(method,url)
@@ -35,10 +56,13 @@
                 {
                     //console.log(i)
                     //console.log(listedItems[i])
-                    var currentItem="<div class='mb-4'> <h3>"+ listedItems[i].id+"</h3>"+"<p>"+ listedItems[i]['content']+"</p></div>"
+                    var tweetobj=listedItems[i]
+                    var currentItem=formattedTweetElement(tweetobj)
+                   
                     //console.log(currentItem)
                     finalTweetstr+=currentItem
                 }
+
                 tweetElement.innerHTML=finalTweetstr
 
                 //console.log(listedItems)
