@@ -1,5 +1,4 @@
 import random
-import django
 from django.db import models
 from django.conf import settings
 
@@ -15,6 +14,9 @@ class Tweet(models.Model):
 
     class Meta:
         ordering=['-id']
+
+    def __str__(self):
+         return self.content
 
     def serialize(self):
         return{
