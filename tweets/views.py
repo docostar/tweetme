@@ -4,8 +4,9 @@ from django.shortcuts import render,redirect
 from django.http import HttpResponse,Http404,JsonResponse
 from django.utils.http import is_safe_url
 from django.conf import settings
-from .models import Tweet
+from .models import Tweet, User
 from .forms import TweetForm
+from .serializers import TweetSerializer
 import random
 # Create your views here.
 
@@ -15,7 +16,16 @@ def home_view(request,*args,**kwargs):
     #return HttpResponse("<h2>Jai Bharat</h2>")
     return render(request,"pages/home.html",status=200,context={})
 
-def tweet_create_view(request,*args, **kwargs):
+def tweet_create_view(request, *args, **kwargs):
+    serializer = TweetSerializer(data=request.POST or None)
+    if serializer.is_valid():
+        obj = serializer.save(user=request.user)
+        obj=serializer.save(User=request.user)
+        return JsonResponse(serializer.data, status=201)
+    return JsonResponse({}, status=400)
+
+
+def tweet_create_view_pure_django(request,*args, **kwargs):
     user = request.user
     if not request.user.is_authenticated:
         user = None
@@ -74,4 +84,6 @@ def tweet_detail_view(request,tweet_id):
 
     #return HttpResponse(f"<h2>Tweet no:{tweet_id}-{obj.content}</h2>")
     return JsonResponse(data,status=status)
+    
+
     
