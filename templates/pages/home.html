@@ -107,8 +107,8 @@
     xhr.responseType = responseType;
     xhr.open(method, url);
     xhr.onload = function () {
-      const serverResponse = xhr.response;
-      const listedItems = serverResponse.response;
+      const serverResponse = xhr.response
+      const listedItems = serverResponse
       var finalTweetstr = "";
       var i;
       for (i = 0; i < listedItems.length; i++) {
@@ -124,7 +124,7 @@
       tweetElement.innerHTML = finalTweetstr;
 
       //console.log(listedItems)
-    };
+    }
     xhr.send();
   }
 
