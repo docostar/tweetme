@@ -8,7 +8,9 @@ from .models import Tweet, User
 from .forms import TweetForm
 from .serializers import TweetSerializer
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
+from rest_framework.authentication import SessionAuthentication
+from rest_framework.decorators import api_view,permission_classes
+from rest_framework.permissions import IsAuthenticated
 import random
 # Create your views here.
 
@@ -19,6 +21,7 @@ def home_view(request,*args,**kwargs):
     return render(request,"pages/home.html",status=200,context={})
 
 @api_view(['POST']) # http method the client == POST
+@permission_classes([IsAuthenticated])
 def tweet_create_view(request, *args, **kwargs):
     serializer = TweetSerializer(data=request.POST)
     if serializer.is_valid(raise_exception=True):
