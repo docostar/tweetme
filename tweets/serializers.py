@@ -3,7 +3,7 @@ from rest_framework import serializers
 from .models import Tweet
 
 MAX_TWEET_LENGTH = settings.MAX_TWEET_LENGTH
-WEET_ACTION_OPTIONS = settings.TWEET_ACTION_OPTIONS
+TWEET_ACTION_OPTIONS = settings.TWEET_ACTION_OPTIONS
 
 class TweetSerializer(serializers.ModelSerializer):
     likes = serializers.SerializerMethodField(read_only=True)
