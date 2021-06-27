@@ -13,14 +13,14 @@
       crossorigin="anonymous"
     />
 
-    <title>Tweet Me</title>
+    <title>Tweet Me | {% block head_title %}{% endblock head_title%}</title>
   </head>
 
   <body>
     {%include "components/navbar.html" %}
 
     <div class="container">
-      {% block content%} 
+      {% block content %} 
       
       {% endblock content%}
     </div>
